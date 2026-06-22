@@ -90,6 +90,11 @@
   <h1>📂 Two Free Ebooks</h1>
   <p class="sub">"How to Become a Millionaire in 6 Months" and "Secure Your Online Income" — fill this in once and unlock both.</p>
 
+  <div class="ebook-row" style="margin-bottom:28px;">
+    <div><img src="assets/ebook-millionaire.png" alt="How to Become a Millionaire in 6 Months — ebook cover"></div>
+    <div><img src="assets/ebook-secure-income.png" alt="Secure Your Online Income — ebook cover"></div>
+  </div>
+
   <!-- ============== GATE FORM ============== -->
   <form id="vaultForm" class="card">
     <label class="field-label" for="name">Full Name</label>
@@ -150,7 +155,7 @@
 
 <script>
 // PASTE YOUR DEPLOYED GOOGLE APPS SCRIPT WEB APP URL HERE
-const APPS_SCRIPT_URL = "YOUR_DEPLOYED_APPS_SCRIPT_URL_HERE";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxmno4b-njHgiusTLn_INmwdCcnApUb6KerN4wZsl_9K8EruEL9jnL9Ru5DdzZ2cp-9gQ/exec";
 const WHATSAPP_NUMBER = "2347037261934";
 
 document.getElementById('vaultForm').addEventListener('submit', async function (e) {
@@ -168,11 +173,14 @@ document.getElementById('vaultForm').addEventListener('submit', async function (
   // mode:'no-cors' means we can't read success/failure anyway, and a backend
   // hiccup shouldn't cost someone their free ebook.
   try {
-    if (APPS_SCRIPT_URL && APPS_SCRIPT_URL !== "https://script.google.com/macros/s/AKfycbxmno4b-njHgiusTLn_INmwdCcnApUb6KerN4wZsl_9K8EruEL9jnL9Ru5DdzZ2cp-9gQ/exec") {
-      fetch(APPS_SCRIPT_URL, {
+    if (APPS_SCRIPT_URL && APPS_SCRIPT_URL !== "YOUR_DEPLOYED_APPS_SCRIPT_URL_HERE") {
+      // Awaited so the request actually finishes sending before anything else runs.
+      await fetch(APPS_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
+        // text/plain keeps this a "simple request" so the browser doesn't try
+        // to preflight it — Apps Script web apps don't handle CORS preflight.
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify({ name, phone, email }),
       });
     }
